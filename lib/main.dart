@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meal_app/screens/category_meals.dart';
+import 'package:flutter_meal_app/screens/tab_screen.dart';
 
 import 'screens/categories_screen.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (ctx) => CategoriesScreen(),
+        '/': (ctx) => TabsScreen(),
         CategoryMeals.routeName: (ctx) => CategoryMeals()
       },
       title: 'DeliMeals',
