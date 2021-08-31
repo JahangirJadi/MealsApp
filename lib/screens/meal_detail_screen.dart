@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_meal_app/dummy_data.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  final String mealId;
-
-  MealDetailScreen(this.mealId);
+  static const routeName = '/meal_details';
 
   Widget _buildContainer(Widget child) {
     return Container(
@@ -34,6 +32,8 @@ class MealDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String mealId = ModalRoute.of(context)!.settings.arguments as String;
+
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
 
     return Scaffold(
@@ -92,6 +92,12 @@ class MealDetailScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete),
+        onPressed: () {
+          Navigator.of(context).pop(mealId);
+        },
       ),
     );
   }
