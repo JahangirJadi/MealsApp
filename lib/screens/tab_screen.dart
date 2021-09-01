@@ -4,7 +4,6 @@ import 'package:flutter_meal_app/screens/favorites_screen.dart';
 import 'package:flutter_meal_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({Key? key}) : super(key: key);
 
   @override
   _TabsScreenState createState() => _TabsScreenState();

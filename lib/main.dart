@@ -1,25 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meal_app/dummy_data.dart';
+import 'package:flutter_meal_app/models/meal.dart';
 import 'package:flutter_meal_app/screens/category_meals.dart';
 import 'package:flutter_meal_app/screens/filter_screen.dart';
 import 'package:flutter_meal_app/screens/meal_detail_screen.dart';
 import 'package:flutter_meal_app/screens/tab_screen.dart';
 
-import 'screens/categories_screen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
+
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+if(_filters['gluten'] as bool && !meal.isGlutenFree){
+  return false;
+}
+if(_filters['lactose'] as bool && !meal.isLactoseFree){
+  return false;
+}
+if(_filters['vegan'] as bool && !meal.isVegan){
+  return false;
+}
+if(_filters['vegetarian'] as bool && !meal.isVegetarian){
+  return false;
+}
+return true;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
         '/': (ctx) => TabsScreen(),
-        CategoryMeals.routeName: (ctx) => CategoryMeals(),
-        FilterScreen.routeName: (ctx) => FilterScreen(),
+        CategoryMeals.routeName: (ctx) => CategoryMeals(_availableMeals),
+        FilterScreen.routeName: (ctx) => FilterScreen(_setFilters),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
       },
       title: 'DeliMeals',
@@ -41,8 +77,6 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
