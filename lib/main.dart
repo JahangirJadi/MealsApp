@@ -20,6 +20,8 @@ class _MyAppState extends State<MyApp> {
 
   List<Meal> _availableMeals = DUMMY_MEALS;
 
+  List<Meal> _favoriteMeals = [];
+
 
   Map<String, bool> _filters = {
     'gluten': false,
@@ -49,14 +51,32 @@ return true;
     });
   }
 
+  void _toggleFavorites(String mealId){
+    final existingIndex = _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if(existingIndex >=0){
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    }else{
+      setState(() {
+        _favoriteMeals.add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id){
+    return _favoriteMeals.any((meal) => meal.id ==id);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(_favoriteMeals),
         CategoryMeals.routeName: (ctx) => CategoryMeals(_availableMeals),
-        FilterScreen.routeName: (ctx) => FilterScreen(_setFilters),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        FilterScreen.routeName: (ctx) => FilterScreen(_filters,_setFilters),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(_toggleFavorites,_isMealFavorite),
       },
       title: 'DeliMeals',
       theme: ThemeData(

@@ -47,9 +47,7 @@ class MainDrawer extends StatelessWidget {
             height: 20,
           ),
           buildListTile('Meals', Icons.restaurant, (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-              return TabsScreen();
-            }));
+            Navigator.of(context).pushReplacementNamed('/');
           }),
           buildListTile('Filters', Icons.settings,(){
             Navigator.of(context).pushReplacementNamed(FilterScreen.routeName);

@@ -54,7 +54,7 @@ class _CategoryMealsState extends State<CategoryMeals> {
             duration: meals.duration,
             complexity: meals.complexity,
             affordability: meals.affordability,
-            removeItem: _removeMeal,
+
           );
         },
         itemCount: displayedMeals.length,
